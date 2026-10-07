@@ -206,8 +206,27 @@ function selectDomain(domain) {
   // Enter it directly instead of allowing the legacy platform overview
   // to become the technician landing page.
   if (domain === 'technician') {
-    window.openTechnicianWorkspace?.();
-    return;
+    // Direct entry point: do not depend on technician-dashboard.js load timing.
+    const dashboard = document.getElementById('technician-dashboard');
+    if (dashboard) {
+      document.getElementById('domain-panel')?.setAttribute('hidden', '');
+      document.getElementById('login-panel')?.setAttribute('hidden', '');
+      document.getElementById('auth-gate')?.setAttribute('hidden', '');
+      document.querySelector('.site-header')?.setAttribute('hidden', '');
+      document.querySelector('.chapter-scroll')?.setAttribute('hidden', '');
+      document.getElementById('main')?.setAttribute('hidden', '');
+      dashboard.hidden = false;
+      document.body.classList.add('technician-mode', 'workspace-unlocked');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+
+    // Fallback for any stale/cached bundle where the dashboard controller
+    // is already available.
+    if (typeof window.openTechnicianWorkspace === 'function') {
+      window.openTechnicianWorkspace();
+      return;
+    }
   }
 
   const picker = document.getElementById('domain-panel');
