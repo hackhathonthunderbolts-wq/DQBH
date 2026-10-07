@@ -211,6 +211,61 @@
             </section>
           </div>
 
+          <section class="tech-analytics-grid" aria-label="Field performance analytics">
+            <section class="tech-panel tech-activity-panel">
+              <div class="tech-panel-head">
+                <div><span class="tech-panel-index">06 / PERFORMANCE</span><h3>Today's field activity</h3></div>
+                <button class="tech-link-btn" type="button" id="tech-reset-analytics">RESET →</button>
+              </div>
+              <div class="tech-analytics-body">
+                <div class="tech-donut-wrap">
+                  <div class="tech-donut" id="tech-completion-donut" style="--completion:80deg">
+                    <div><strong id="tech-donut-value">4/5</strong><span>COMPLETED</span></div>
+                  </div>
+                  <div class="tech-legend">
+                    <span><i class="legend-complete"></i>Completed <b id="tech-complete-count">4</b></span>
+                    <span><i class="legend-rejected"></i>Rejected <b>0</b></span>
+                    <span><i class="legend-pending"></i>Pending <b id="tech-pending-count">1</b></span>
+                  </div>
+                </div>
+                <div class="tech-bars-wrap">
+                  <div class="tech-chart-meta"><span>Tasks completed / last 7 days</span><strong id="tech-week-total">32</strong></div>
+                  <div class="tech-bars" id="tech-week-bars" aria-label="Seven day task completion chart">
+                    <span style="--bar:48%" data-day="M" data-value="4"><i></i><b>M</b></span>
+                    <span style="--bar:62%" data-day="T" data-value="5"><i></i><b>T</b></span>
+                    <span style="--bar:42%" data-day="W" data-value="3"><i></i><b>W</b></span>
+                    <span style="--bar:75%" data-day="T" data-value="6"><i></i><b>T</b></span>
+                    <span style="--bar:58%" data-day="F" data-value="5"><i></i><b>F</b></span>
+                    <span style="--bar:88%" data-day="S" data-value="7"><i></i><b>S</b></span>
+                    <span style="--bar:26%" data-day="S" data-value="2"><i></i><b>S</b></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="tech-panel tech-performance-panel">
+              <div class="tech-panel-head">
+                <div><span class="tech-panel-index">07 / SLA SIGNAL</span><h3>Weekly performance</h3></div>
+                <span class="tech-sync">+6.4%</span>
+              </div>
+              <div class="tech-sparkline">
+                <svg viewBox="0 0 420 130" role="img" aria-label="Weekly SLA performance trend">
+                  <defs>
+                    <linearGradient id="techSparkFill" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#e8e8e5" stop-opacity=".18"/>
+                      <stop offset="1" stop-color="#e8e8e5" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path class="spark-grid" d="M0 25H420 M0 65H420 M0 105H420"/>
+                  <path class="spark-area" d="M0 91 L70 82 L140 88 L210 55 L280 63 L350 35 L420 44 L420 130 L0 130 Z"/>
+                  <path class="spark-line" d="M0 91 L70 82 L140 88 L210 55 L280 63 L350 35 L420 44"/>
+                  <circle cx="420" cy="44" r="4"/>
+                </svg>
+                <div class="tech-spark-values"><span>MON</span><span>TODAY</span><strong>96% SLA</strong></div>
+              </div>
+            </section>
+          </section>
+
           <section class="tech-panel tech-timeline-panel">
             <div class="tech-panel-head"><div><span class="tech-panel-index">05 / FIELD ACTIVITY</span><h3>Today's activity</h3></div><span class="tech-sync">● SYNCED JUST NOW</span></div>
             <div class="tech-timeline">
