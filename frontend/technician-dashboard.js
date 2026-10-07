@@ -86,35 +86,55 @@
       const data = {
         tasks: {
           index:'02 / MY TASKS', title:'Assigned work queue',
-          body:'<div class="tech-dynamic-toolbar"><span>3 ACTIVE RECORDS</span><button data-close-view>BACK TO OVERVIEW</button></div>' +
-          '<div class="tech-task-cards">' +
-          '<button class="tech-interactive-row" data-task="SR-2026-1001"><b>SR-2026-1001</b><span>EMERGENCY · Gas turbine inspection</span><strong>01:45:22</strong></button>' +
-          '<button class="tech-interactive-row" data-task="SR-2026-1003"><b>SR-2026-1003</b><span>HIGH · Hydraulic pressure anomaly</span><strong>03:20:00</strong></button>' +
-          '<button class="tech-interactive-row" data-task="SR-2026-1008"><b>SR-2026-1008</b><span>MEDIUM · Preventive maintenance</span><strong>11:10:00</strong></button></div>'
+          body:`
+            <div class="tech-dynamic-toolbar"><span>03 ACTIVE · 06 TOTAL ASSIGNMENTS</span><button data-close-view>BACK TO OVERVIEW</button></div>
+            <div class="tech-view-kpis"><article><small>ACTIVE</small><strong>01</strong><span>Currently executing</span></article><article><small>QUEUED</small><strong>03</strong><span>Next assignments</span></article><article><small>COMPLETED</small><strong>24</strong><span>This month</span></article><article><small>SLA HEALTH</small><strong>96%</strong><span>Within target</span></article></div>
+            <div class="tech-section-title"><span>TODAY'S ASSIGNMENTS</span><small>Sorted by priority</small></div>
+            <div class="tech-task-board">
+              <button class="tech-interactive-row featured" data-task="SR-2026-1001"><span class="task-code">SR-2026-1001</span><b>Emergency turbine inspection</b><small>Houston Energy Complex A · Unit 04 · 2.8 km</small><em>01:45:22</em><strong>IN PROGRESS</strong></button>
+              <button class="tech-interactive-row" data-task="SR-2026-1003"><span class="task-code">SR-2026-1003</span><b>Hydraulic pressure anomaly</b><small>Houston Energy Complex B · Bay 07 · 6.4 km</small><em>03:20:00</em><strong>ASSIGNED</strong></button>
+              <button class="tech-interactive-row" data-task="SR-2026-1008"><span class="task-code">SR-2026-1008</span><b>Preventive maintenance</b><small>Central Compressor Station · M-067 · 15.2 km</small><em>11:10:00</em><strong>QUEUED</strong></button>
+            </div>
+            <div class="tech-view-columns">
+              <section class="tech-mini-panel"><h4>Completion trend</h4><div class="tech-progress-list"><label><span>Emergency</span><i><b style="width:88%"></b></i><strong>88%</strong></label><label><span>High</span><i><b style="width:94%"></b></i><strong>94%</strong></label><label><span>Routine</span><i><b style="width:97%"></b></i><strong>97%</strong></label></div></section>
+              <section class="tech-mini-panel"><h4>Quick actions</h4><div class="tech-action-grid"><button data-task="SR-2026-1001">Resume active job</button><button data-close-view>View route</button><button data-close-view>Filter queue</button></div></section>
+            </div>`
         },
         schedule: {
-          index:'03 / TODAY / SCHEDULE', title:'Shift plan',
-          body:'<div class="tech-dynamic-toolbar"><span>08:00 — 17:00 · CENTRAL ZONE</span><button data-close-view>BACK TO OVERVIEW</button></div>' +
-          '<div class="tech-schedule-grid"><div><small>08:00</small><b>Shift started</b><span>Ready for assignments</span></div>' +
-          '<div><small>10:30</small><b>SR-2026-1001</b><span>Emergency turbine inspection</span></div>' +
-          '<div><small>14:00</small><b>SR-2026-1003</b><span>Hydraulic diagnostics</span></div>' +
-          '<div><small>16:15</small><b>Service report review</b><span>Submit completion evidence</span></div></div>'
+          index:'03 / TODAY / SCHEDULE', title:'Shift plan & field calendar',
+          body:`
+            <div class="tech-dynamic-toolbar"><span>08:00 — 17:00 · CENTRAL ZONE · 09H00 SHIFT</span><button data-close-view>BACK TO OVERVIEW</button></div>
+            <div class="tech-view-kpis"><article><small>SHIFT</small><strong>09h</strong><span>08:00 — 17:00</span></article><article><small>BOOKED</small><strong>07h</strong><span>78% utilization</span></article><article><small>TRAVEL</small><strong>42m</strong><span>Estimated today</span></article><article><small>OPEN SLOT</small><strong>01</strong><span>16:15 available</span></article></div>
+            <div class="tech-calendar">
+              <div class="tech-calendar-head"><span>TIME</span><span>FIELD PLAN</span><span>STATUS</span></div>
+              <div><time>08:00</time><section><b>Shift started</b><small>Availability enabled · Central Zone</small></section><strong>COMPLETE</strong></div>
+              <div class="active"><time>10:30</time><section><b>SR-2026-1001 · Turbine inspection</b><small>Houston Energy Complex A · Emergency · 2.8 km</small></section><strong>IN PROGRESS</strong></div>
+              <div><time>14:00</time><section><b>SR-2026-1003 · Hydraulic diagnostics</b><small>Houston Energy Complex B · High priority · 6.4 km</small></section><strong>UPCOMING</strong></div>
+              <div><time>16:15</time><section><b>Service report review</b><small>Completion evidence + customer sign-off</small></section><strong>PLANNED</strong></div>
+            </div>
+            <div class="tech-section-title"><span>WEEKLY UTILIZATION</span><small>Target ≥ 80%</small></div>
+            <div class="tech-week-schedule"><span><i style="height:72%"></i><b>MON</b></span><span><i style="height:84%"></i><b>TUE</b></span><span><i style="height:91%"></i><b>WED</b></span><span><i style="height:78%"></i><b>THU</b></span><span><i style="height:88%"></i><b>FRI</b></span></div>`
         },
         skills: {
           index:'04 / SKILLS & CERTIFICATIONS', title:'Technician capability profile',
-          body:'<div class="tech-dynamic-toolbar"><span>PROFILE VERIFIED</span><button data-close-view>BACK TO OVERVIEW</button></div>' +
-          '<div class="tech-capability-grid"><article><b>Electrical</b><span>EXPERT</span><i style="--level:92%"></i></article>' +
-          '<article><b>Mechanical</b><span>EXPERT</span><i style="--level:88%"></i></article>' +
-          '<article><b>PLC</b><span>INTERMEDIATE</span><i style="--level:72%"></i></article>' +
-          '<article><b>Hydraulics</b><span>INTERMEDIATE</span><i style="--level:68%"></i></article></div>' +
-          '<div class="tech-cert-list"><b>Certifications</b><span>✓ Electrical Safety · Valid</span><span>✓ PLC Programming · Valid</span><span>! Forklift Operation · Expired</span></div>'
+          body:`
+            <div class="tech-dynamic-toolbar"><span>PROFILE VERIFIED · LAST REVIEW 06 OCT 2026</span><button data-close-view>BACK TO OVERVIEW</button></div>
+            <div class="tech-view-kpis"><article><small>SKILLS</small><strong>04</strong><span>Verified capabilities</span></article><article><small>CERTIFICATIONS</small><strong>03</strong><span>02 valid · 01 expired</span></article><article><small>MATCH RATE</small><strong>92%</strong><span>Dispatch compatibility</span></article><article><small>LEVEL</small><strong>L4</strong><span>Senior technician</span></article></div>
+            <div class="tech-capability-grid"><article><div><b>Electrical</b><span>EXPERT</span></div><i><b style="width:92%"></b></i><small>92 / 100 · 18 verified jobs</small></article><article><div><b>Mechanical</b><span>EXPERT</span></div><i><b style="width:88%"></b></i><small>88 / 100 · 21 verified jobs</small></article><article><div><b>PLC</b><span>INTERMEDIATE</span></div><i><b style="width:72%"></b></i><small>72 / 100 · 12 verified jobs</small></article><article><div><b>Hydraulics</b><span>INTERMEDIATE</span></div><i><b style="width:68%"></b></i><small>68 / 100 · 10 verified jobs</small></article></div>
+            <div class="tech-view-columns"><section class="tech-mini-panel"><h4>Certification register</h4><div class="tech-cert-list expanded"><span>✓ Electrical Safety <small>Valid until 12 Dec 2026</small></span><span>✓ PLC Programming <small>Valid until 03 Jan 2027</small></span><span>! Forklift Operation <small>Expired · renewal required</small></span></div></section><section class="tech-mini-panel"><h4>Training progress</h4><div class="tech-training"><div><span>Advanced diagnostics</span><strong>78%</strong></div><i><b style="width:78%"></b></i><div><span>Digital evidence standards</span><strong>64%</strong></div><i><b style="width:64%"></b></i></div></section></div>`
         },
         notifications: {
-          index:'05 / NOTIFICATIONS', title:'Operational inbox',
-          body:'<div class="tech-dynamic-toolbar"><span>' + unread + ' UNREAD</span><button data-mark-read>MARK ALL READ</button></div>' +
-          '<div class="tech-inbox"><button class="tech-inbox-row unread"><b>Emergency assignment</b><span>SR-2026-1001 at Houston Energy Complex A</span><small>2 min ago</small></button>' +
-          '<button class="tech-inbox-row unread"><b>Parts reservation confirmed</b><span>3 parts reserved for SR-2026-1001</span><small>1 hr ago</small></button>' +
-          '<button class="tech-inbox-row"><b>Performance report</b><span>Your weekly performance is ready</span><small>3 hr ago</small></button></div>'
+          index:'05 / NOTIFICATIONS', title:'Operational inbox & alerts',
+          body:`
+            <div class="tech-dynamic-toolbar"><span><b id="dynamic-unread-count">${unread}</b> UNREAD · 07 TOTAL</span><button data-mark-read>MARK ALL READ</button></div>
+            <div class="tech-view-kpis"><article><small>UNREAD</small><strong id="dynamic-unread-kpi">${unread}</strong><span>Needs attention</span></article><article><small>URGENT</small><strong>01</strong><span>Emergency assignment</span></article><article><small>INFO</small><strong>04</strong><span>Operational updates</span></article><article><small>SYSTEM</small><strong>02</strong><span>Platform notices</span></article></div>
+            <div class="tech-inbox detailed">
+              <button class="tech-inbox-row unread"><i>!</i><div><b>Emergency assignment</b><span>SR-2026-1001 assigned at Houston Energy Complex A · respond before SLA threshold.</span></div><small>2 min ago</small></button>
+              <button class="tech-inbox-row unread"><i>↗</i><div><b>Parts reservation confirmed</b><span>3 parts reserved for SR-2026-1001 and held against the service request.</span></div><small>1 hr ago</small></button>
+              <button class="tech-inbox-row"><i>✓</i><div><b>Performance report ready</b><span>Your weekly field performance report is available for review.</span></div><small>3 hr ago</small></button>
+              <button class="tech-inbox-row"><i>●</i><div><b>Schedule updated</b><span>SR-2026-1003 moved to 14:00 due to route optimization.</span></div><small>Yesterday</small></button>
+              <button class="tech-inbox-row"><i>✓</i><div><b>Certification reminder</b><span>Forklift Operation certification requires renewal.</span></div><small>Yesterday</small></button>
+            </div>`
         }
       }[view];
 
