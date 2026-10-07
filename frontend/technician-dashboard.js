@@ -3,6 +3,9 @@
    FIELD TECHNICIAN WORKSPACE CONTROLLER
    ================================================================ */
 (() => {
+  // This file is loaded from <head>, so the dashboard element may not
+  // exist yet. Initialize only after the document has been parsed.
+  function initializeTechnicianWorkspace() {
   const dashboard = document.getElementById('technician-dashboard');
   if (!dashboard) return;
 
@@ -95,4 +98,12 @@
     if (label) label.textContent = isAvailable ? 'AVAILABLE' : 'OFFLINE';
     window.techToast?.(isAvailable ? 'Availability set to AVAILABLE' : 'Availability set to OFFLINE');
   });
+  }
+
+  // Run after parsing so all dashboard markup exists.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTechnicianWorkspace, { once: true });
+  } else {
+    initializeTechnicianWorkspace();
+  }
 })();
