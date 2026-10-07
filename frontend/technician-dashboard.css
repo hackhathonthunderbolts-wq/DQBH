@@ -181,3 +181,7 @@ body.technician-mode .scroll-progress { display:none; }
   .tech-timeline { grid-template-columns:1fr; gap:14px; }
   .tech-timeline-item:not(:last-child):after { display:none; }
 }
+
+
+.tech-toast { position:fixed; right:24px; bottom:24px; z-index:100; max-width:360px; padding:12px 15px; background:#17191c; color:#fff; border:1px solid rgba(255,255,255,.14); box-shadow:0 14px 40px rgba(0,0,0,.18); font:500 9px var(--font-mono); letter-spacing:.04em; transform:translateY(12px); opacity:0; pointer-events:none; transition:.2s ease; }
+.tech-toast.is-visible { transform:translateY(0); opacity:1; }
