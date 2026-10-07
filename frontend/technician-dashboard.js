@@ -58,11 +58,19 @@
 
     function setView(view) {
       state.activeView = view;
-      $$('.tech-nav-item').forEach(x => x.classList.toggle('is-active', x.dataset.techView === view));
+      $('.tech-nav-item').forEach(x => x.classList.toggle('is-active', x.dataset.techView === view));
       const old = $('#tech-dynamic-view');
       if (old) old.hidden = view === 'overview';
-      $$('.tech-overview-only').forEach(x => x.hidden = view !== 'overview');
-      if (view !== 'overview') showWorkspaceView(view);
+      $('.tech-overview-only').forEach(x => x.hidden = view !== 'overview');
+
+      if (view === 'overview') {
+        const overview = $('.tech-content');
+        overview?.scrollIntoView({behavior:'smooth', block:'start'});
+        toast('Overview dashboard');
+        return;
+      }
+
+      showWorkspaceView(view);
     }
 
     function showWorkspaceView(view) {
