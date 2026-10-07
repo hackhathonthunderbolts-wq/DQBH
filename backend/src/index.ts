@@ -9,6 +9,7 @@ import { config } from './config';
 import { authenticate } from './middleware/auth';
 import { serviceRequestsRouter } from './routes/serviceRequests';
 import { techniciansRouter } from './routes/technicians';
+import { technicianRouter } from './routes/technician';
 import { machinesRouter } from './routes/machines';
 import { inventoryRouter } from './routes/inventory';
 import { apiKeysRouter } from './routes/apiKeys';
@@ -39,6 +40,7 @@ app.get('/health', (req, res) => {
 // Register Domain Route Handlers
 app.use(`${config.apiPrefix}/service-requests`, serviceRequestsRouter);
 app.use(`${config.apiPrefix}/technicians`, techniciansRouter);
+app.use(`${config.apiPrefix}/technician`, technicianRouter);
 app.use(`${config.apiPrefix}/machines`, machinesRouter);
 app.use(`${config.apiPrefix}/inventory`, inventoryRouter);
 app.use(`${config.apiPrefix}/api-keys`, apiKeysRouter);
