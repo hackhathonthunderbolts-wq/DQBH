@@ -114,3 +114,231 @@ body.technician-mode { background:#0a0b0d; color:#f2f2f0; }
 @media (max-width:720px) {
   .tech-sidebar { border-right:0; border-bottom:1px solid #292b2f; }
 }
+
+
+/* ================================================================
+   PRESENTATION PASS — MORE AIR, LESS CLUTTER
+   Keep the DQBH monochrome system while increasing hierarchy and scanability.
+   ================================================================ */
+.technician-dashboard {
+  --tech-gap: 22px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 72% 0%, rgba(255,255,255,.045), transparent 32%),
+    linear-gradient(135deg, #08090a 0%, #111316 48%, #070809 100%);
+}
+
+.tech-main {
+  min-width: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.018), transparent 180px),
+    #0a0b0d;
+}
+
+.tech-topbar {
+  min-height: 82px;
+  padding: 18px 30px;
+  background: linear-gradient(100deg, #0b0c0e 0%, #17191c 58%, #0b0c0e 100%);
+}
+
+.tech-content {
+  padding: 34px 32px 46px;
+  max-width: 1680px;
+  margin: 0 auto;
+}
+
+.tech-hero-row {
+  margin-bottom: 26px;
+  padding: 4px 2px 2px;
+  align-items: flex-end;
+}
+
+.tech-hero-row h2 {
+  margin: 7px 0 10px;
+  letter-spacing: -.035em;
+}
+
+.tech-hero-row p {
+  max-width: 680px;
+  line-height: 1.65;
+}
+
+.tech-shift-card {
+  padding: 14px 20px 14px 22px;
+  min-width: 220px;
+  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.012));
+  border: 1px solid #303237;
+  border-left: 2px solid #d8d8d5;
+}
+
+.tech-metrics {
+  margin-bottom: var(--tech-gap);
+  min-height: 112px;
+  background: linear-gradient(145deg, #151719, #0f1012);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tech-metrics article {
+  padding: 22px 24px;
+}
+
+.tech-metrics strong {
+  margin: 7px 0 4px;
+  font-size: 30px;
+  letter-spacing: -.03em;
+}
+
+.tech-grid {
+  gap: var(--tech-gap);
+  margin-bottom: var(--tech-gap);
+  align-items: stretch;
+}
+
+.tech-grid.lower {
+  margin-top: 0;
+}
+
+.tech-panel {
+  border-radius: 12px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.008)),
+    #111214;
+  padding: 0;
+  overflow: hidden;
+}
+
+.tech-panel-head {
+  padding: 19px 22px;
+  min-height: 68px;
+}
+
+.tech-job-location,
+.tech-job-machine,
+.tech-progress,
+.tech-job-actions {
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+.tech-job-location {
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+.tech-job-machine {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.tech-progress {
+  padding-top: 20px;
+  padding-bottom: 22px;
+}
+
+.tech-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 22px;
+  margin-top: 16px;
+}
+
+.tech-checklist label {
+  padding: 8px 0;
+  line-height: 1.35;
+}
+
+.tech-job-actions {
+  gap: 12px;
+  padding-top: 18px;
+  padding-bottom: 20px;
+  border-top: 1px solid #2b2d31;
+}
+
+.tech-profile-panel {
+  padding-bottom: 22px;
+}
+
+.tech-profile-main {
+  padding: 22px;
+}
+
+.tech-profile-stats,
+.tech-skills-mini {
+  margin-left: 22px;
+  margin-right: 22px;
+}
+
+.tech-outline-wide {
+  margin: 20px 22px 0;
+  width: calc(100% - 44px);
+}
+
+.tech-task-list,
+.tech-notification-list {
+  padding: 4px 0 8px;
+}
+
+.tech-task-row {
+  min-height: 76px;
+  padding: 15px 22px;
+}
+
+.tech-notification {
+  padding: 17px 22px;
+  min-height: 78px;
+}
+
+.tech-timeline-panel {
+  margin-top: 0;
+}
+
+.tech-timeline {
+  padding: 22px 28px 28px;
+}
+
+.tech-timeline-item {
+  min-height: 72px;
+}
+
+.tech-sidebar {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.025), transparent 180px),
+    #08090a;
+}
+
+.tech-sidebar-brand {
+  padding: 24px 24px 22px;
+}
+
+.tech-side-nav {
+  padding: 18px 14px;
+  gap: 6px;
+}
+
+.tech-nav-item {
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.tech-sidebar-foot {
+  padding: 18px 24px 24px;
+}
+
+@media (min-width: 1500px) {
+  .tech-content { padding-left: 44px; padding-right: 44px; }
+  .tech-grid { grid-template-columns: minmax(0, 1.8fr) minmax(330px, .82fr); }
+}
+
+@media (max-width: 1050px) {
+  .tech-content { padding: 26px 22px 38px; }
+  .tech-checklist { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .tech-content { padding: 20px 14px 30px; }
+  .tech-topbar { padding: 16px 18px; }
+  .tech-hero-row { gap: 18px; }
+  .tech-metrics article { padding: 17px; }
+  .tech-grid { gap: 16px; }
+}
