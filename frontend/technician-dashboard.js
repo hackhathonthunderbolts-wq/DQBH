@@ -9,10 +9,17 @@
   let lastDomain = null;
 
   function openDashboard() {
+    if (!dashboard) return;
     dashboard.hidden = false;
     document.body.classList.add('technician-mode');
+    document.body.classList.add('workspace-unlocked');
+    document.getElementById('auth-gate')?.setAttribute('hidden', '');
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
+
+  // Explicit public entry point used by the authentication flow.
+  // This avoids relying on MutationObserver timing.
+  window.openTechnicianWorkspace = openDashboard;
 
   function closeDashboard() {
     dashboard.hidden = true;
@@ -59,7 +66,8 @@
   const observer = new MutationObserver(syncDomainState);
   observer.observe(document.body, { attributes:true, subtree:true, attributeFilter:['hidden','class','data-domain'] });
   document.addEventListener('DOMContentLoaded', syncDomainState);
-  setTimeout(syncDomainState, 150);
+  // Also recover automatically if the auth state was already established.
+  setTimeout(syncDomainState, 50);
 
   document.querySelectorAll('[data-tech-view], [data-tech-view-target]').forEach((button) => {
     button.addEventListener('click', () => {
