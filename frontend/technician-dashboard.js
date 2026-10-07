@@ -10,10 +10,16 @@
 
   function openDashboard() {
     if (!dashboard) return;
+
+    // Hard-switch to the technician application. Hide the legacy
+    // marketing/platform shell so it can never appear behind the dashboard.
     dashboard.hidden = false;
     document.body.classList.add('technician-mode');
     document.body.classList.add('workspace-unlocked');
     document.getElementById('auth-gate')?.setAttribute('hidden', '');
+    document.querySelector('.site-header')?.setAttribute('hidden', '');
+    document.querySelector('.chapter-scroll')?.setAttribute('hidden', '');
+    document.getElementById('main')?.setAttribute('hidden', '');
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
@@ -24,6 +30,9 @@
   function closeDashboard() {
     dashboard.hidden = true;
     document.body.classList.remove('technician-mode');
+    document.querySelector('.site-header')?.removeAttribute('hidden');
+    document.querySelector('.chapter-scroll')?.removeAttribute('hidden');
+    document.getElementById('main')?.removeAttribute('hidden');
   }
 
   function syncDomainState() {
