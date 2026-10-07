@@ -1,0 +1,7 @@
+backend/
+docs/
+*.ps1
+docker-compose.yml
+frontend/Dockerfile
+frontend/nginx.conf
+.git/
