@@ -225,6 +225,14 @@ window.submitDomainLogin = function (event) {
   document.getElementById('auth-gate')?.setAttribute('hidden', '');
   const note = document.querySelector('.header-note');
   if (note) note.innerHTML = `${config.kicker} <span>/</span> AUTHENTICATED`;
+
+  // Technician has a dedicated application workspace. Open it directly after
+  // authentication instead of relying on the legacy landing-page flow.
+  if (domain === 'technician') {
+    window.openTechnicianWorkspace?.();
+    return;
+  }
+
   window.scrollTo({ top: 0, behavior: 'instant' });
   setTimeout(() => initializeTechnicianMap(), 100);
 };
