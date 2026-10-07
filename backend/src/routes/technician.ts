@@ -59,7 +59,7 @@ technicianRouter.get('/me/tasks',(req,res)=>{
   if(req.query.status) rows=rows.filter(a=>a.status===String(req.query.status)|| (String(req.query.status)==='PROPOSED'&&a.status==='PENDING'));
   const data=rows.map(a=>store.serviceRequests.get(a.serviceRequestId)).filter(Boolean).map(r=>{const a=rows.find(x=>x.serviceRequestId===r!.id)!;return serializeTask(tech.id,r!,a);});
   if(req.query.priority)data.splice(0,data.length,...data.filter((r:any)=>r.priority===String(req.query.priority)));
-  data.sort((a:any,b:any)=>({EMERGENCY:0,HIGH:1,MEDIUM:2,LOW:3}[a.priority]-({EMERGENCY:0,HIGH:1,MEDIUM:2,LOW:3}[b.priority])||a.slaRemainingMs-b.slaRemainingMs));
+  const priorityRank: Record<string, number> = { EMERGENCY: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };\n  data.sort((a:any,b:any)=>(priorityRank[a.priority] ?? 99)-(priorityRank[b.priority] ?? 99)||a.slaRemainingMs-b.slaRemainingMs);
   return res.json({success:true,count:data.length,data});
 });
 
