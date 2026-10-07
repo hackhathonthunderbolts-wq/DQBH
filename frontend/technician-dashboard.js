@@ -254,6 +254,36 @@
       toast('Problem report workspace opened');
     });
 
+    // Smooth reveal + scroll-driven dashboard motion.
+    const revealTargets = $('.tech-panel, .tech-metrics, .tech-hero-row, .tech-analytics-grid, .tech-timeline-panel, .tech-dynamic-view');
+    revealTargets.forEach((el, i) => {
+      el.classList.add('tech-reveal');
+      el.style.transitionDelay = Math.min(i * 45, 260) + 'ms';
+    });
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.12, rootMargin:'0px 0px -50px 0px'});
+      revealTargets.forEach(el => revealObserver.observe(el));
+    } else {
+      revealTargets.forEach(el => el.classList.add('is-visible'));
+    }
+
+    document.addEventListener('click', e => {
+      const link = e.target.closest('[data-tech-scroll]');
+      if (!link) return;
+      const target = document.querySelector(link.getAttribute('data-tech-scroll'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+
     refreshAnalytics();
     setView('overview');
 
