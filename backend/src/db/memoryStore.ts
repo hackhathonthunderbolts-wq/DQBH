@@ -30,6 +30,17 @@ export class MemoryStore {
   public exceptionLogs: Map<string, ExceptionLog> = new Map();
   public auditTrail: AuditBlock[] = [];
   public apiKeys: Map<string, ApiKeyRecord> = new Map();
+  public technicianSkills: Map<string, TechnicianSkill> = new Map();
+  public certifications: Map<string, Certification> = new Map();
+  public shifts: Map<string, ShiftSchedule> = new Map();
+  public assignments: Map<string, Assignment> = new Map();
+  public taskLogs: Map<string, TechnicianTaskLog> = new Map();
+  public documents: Map<string, TechnicianDocument> = new Map();
+  public checklists: Map<string, RequestChecklist> = new Map();
+  public checkInRecords: Map<string, CheckIn> = new Map();
+  public notifications: Map<string, TechnicianNotification> = new Map();
+  public badges: Map<string, Badge> = new Map();
+  public technicianBadges: Map<string, TechnicianBadge> = new Map();
 
   private constructor() {
     this.seedInitialData();
