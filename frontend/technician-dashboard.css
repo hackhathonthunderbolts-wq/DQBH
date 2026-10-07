@@ -1386,3 +1386,133 @@ body.technician-mode .tech-content { padding-top:30px; }
   *,*::before,*::after { animation:none !important; transition:none !important; }
   .tech-reveal { opacity:1; transform:none; }
 }
+
+
+/* ================================================================
+   SIDEBAR NAV REFINEMENT
+   Prevent global styles/viewport scaling from making the workspace
+   navigation oversized or card-heavy.
+   ================================================================ */
+body.technician-mode .tech-side-nav {
+  box-sizing:border-box;
+  padding:12px 12px 10px;
+  gap:3px;
+}
+
+body.technician-mode .tech-nav-item {
+  box-sizing:border-box;
+  min-height:44px;
+  height:44px;
+  width:100%;
+  margin:0;
+  padding:0 12px;
+  border:1px solid transparent;
+  border-radius:7px;
+  background:transparent;
+  color:#858a92;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:400;
+  letter-spacing:0;
+  white-space:nowrap;
+  transform:none;
+}
+
+body.technician-mode .tech-nav-item span {
+  flex:0 0 24px;
+  width:24px;
+  color:#5f646c;
+  font-size:9px !important;
+  line-height:1 !important;
+  letter-spacing:.08em;
+}
+
+body.technician-mode .tech-nav-item b {
+  flex:0 0 22px;
+  min-width:22px;
+  width:22px;
+  height:22px;
+  margin-left:auto;
+  font-size:9px !important;
+  line-height:22px !important;
+  border-radius:50%;
+  text-align:center;
+}
+
+body.technician-mode .tech-nav-item:hover {
+  transform:translateX(2px);
+  background:#17191c;
+  color:#f1f1ef;
+}
+
+body.technician-mode .tech-nav-item.is-active {
+  min-height:44px;
+  background:linear-gradient(90deg,#24272a,#1a1c1f);
+  border-color:#34373b;
+  box-shadow:inset 3px 0 #eeeeeb, 0 5px 18px rgba(0,0,0,.16);
+  color:#f5f5f2;
+}
+
+body.technician-mode .tech-nav-item.is-active span {
+  color:#aeb2b7;
+}
+
+body.technician-mode .tech-sidebar .tech-role-chip {
+  padding:17px 24px 9px;
+  font-size:9px !important;
+  line-height:1.2 !important;
+}
+
+body.technician-mode .tech-sidebar .tech-live-dot {
+  width:7px;
+  height:7px;
+  margin-right:7px;
+}
+
+@media (max-width:780px) {
+  body.technician-mode .tech-sidebar {
+    width:100%;
+    min-width:0;
+    height:auto;
+  }
+
+  body.technician-mode .tech-side-nav {
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    padding:8px 14px 14px;
+  }
+
+  body.technician-mode .tech-nav-item {
+    height:42px;
+    min-height:42px;
+    font-size:12px !important;
+    border-radius:6px;
+  }
+
+  body.technician-mode .tech-sidebar-brand {
+    height:56px;
+    min-height:56px;
+  }
+}
+
+@media (max-width:520px) {
+  body.technician-mode .tech-sidebar-brand {
+    padding:0 18px;
+  }
+
+  body.technician-mode .tech-role-chip {
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  body.technician-mode .tech-side-nav {
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  body.technician-mode .tech-nav-item {
+    padding:0 10px;
+    font-size:11px !important;
+  }
+}
