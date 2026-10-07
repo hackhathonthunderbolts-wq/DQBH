@@ -14,7 +14,18 @@ import {
   ExceptionLog, 
   AuditBlock, 
   ApiKeyRecord,
-  PartReservation
+  PartReservation,
+  TechnicianSkill,
+  Certification,
+  ShiftSchedule,
+  Assignment,
+  TechnicianTaskLog,
+  TechnicianDocument,
+  RequestChecklist,
+  CheckIn,
+  TechnicianNotification,
+  Badge,
+  TechnicianBadge
 } from '../domain/types';
 
 export class MemoryStore {
