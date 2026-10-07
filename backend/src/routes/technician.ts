@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { z } from 'zod';
 import { requireRole } from '../middleware/auth';
 import { MemoryStore } from '../db/memoryStore';
 import { ExtensibleEventPipeline } from '../services/eventPipeline';
@@ -13,6 +14,11 @@ const technicianOnly=requireRole(['FIELD_TECHNICIAN']);
 
 const actor=(req:Request)=>getTechnicianForUser(req.user?.id,req.user?.name);
 const forbidden=(res:Response)=>res.status(403).json({success:false,error:'FORBIDDEN',message:'Technician ownership check failed.'});
+const availabilitySchema=z.object({availability:z.enum(['AVAILABLE','BUSY','OFF_DUTY'])});
+const logSchema=z.object({type:z.enum(['WORK_NOTE','STATUS_UPDATE','ISSUE']),note:z.string().min(1).max(4000)});
+const documentSchema=z.object({type:z.enum(['BEFORE_PHOTO','AFTER_PHOTO','SERVICE_REPORT']),mimeType:z.string().min(1),sizeBytes:z.number().int().nonnegative().max(10*1024*1024),url:z.string().min(1)});
+const completeSchema=z.object({checklist:z.array(z.object({id:z.string().optional(),checklistItemId:z.string().optional(),isDone:z.boolean()})).min(1)});
+
 
 technicianRouter.use(technicianOnly);
 
@@ -25,8 +31,8 @@ technicianRouter.get('/me/profile',(req,res)=>{
 
 technicianRouter.patch('/me/availability',(req,res)=>{
   const tech=actor(req); if(!tech)return res.status(404).json({success:false,message:'Technician profile not found.'});
-  const availability=req.body?.availability;
-  if(!['AVAILABLE','BUSY','OFF_DUTY'].includes(availability))return res.status(400).json({success:false,message:'availability must be AVAILABLE, BUSY or OFF_DUTY.'});
+  const parsed=availabilitySchema.safeParse(req.body); if(!parsed.success)return res.status(400).json({success:false,error:'VALIDATION_ERROR',message:'Invalid availability.'});
+  const availability=parsed.data.availability;
   const previous=tech.currentStatus; tech.currentStatus=availabilityToStatus(availability);
   store.recordAudit('TECHNICIAN',tech.id,'AVAILABILITY_CHANGED',req.user!.id,req.user!.role,{status:previous},{status:tech.currentStatus});
   pipeline.emit('technician:availability_changed',{technicianId:tech.id,availability});
@@ -105,8 +111,8 @@ technicianRouter.post('/requests/:id/start',(req,res)=>{
 technicianRouter.post('/requests/:id/logs',(req,res)=>{
   const tech=actor(req); if(!tech)return res.status(404).json({success:false,message:'Technician profile not found.'});
   const {assignment,request}=taskFor(tech.id,req.params.id); if(!assignment||!request)return forbidden(res);
-  const type=req.body?.type,note=String(req.body?.note||'');
-  if(!['WORK_NOTE','STATUS_UPDATE','ISSUE'].includes(type)||!note)return res.status(400).json({success:false,message:'Valid type and note are required.'});
+  const parsed=logSchema.safeParse(req.body); if(!parsed.success)return res.status(400).json({success:false,error:'VALIDATION_ERROR',message:'Valid type and note are required.'});
+  const {type,note}=parsed.data;
   const log={id:`log-${Date.now()}`,serviceRequestId:request.id,assignmentId:assignment.id,technicianId:tech.id,type,note,createdAt:new Date().toISOString()};
   store.taskLogs.set(log.id,log); store.recordAudit('SERVICE_REQUEST',request.id,'TECHNICIAN_LOG_ADDED',tech.id,req.user!.role,undefined,log); pipeline.emit('technician:task_log',{log});
   return res.status(201).json({success:true,data:log});
@@ -115,8 +121,8 @@ technicianRouter.post('/requests/:id/logs',(req,res)=>{
 technicianRouter.post('/requests/:id/documents',(req,res)=>{
   const tech=actor(req); if(!tech)return res.status(404).json({success:false,message:'Technician profile not found.'});
   const {assignment,request}=taskFor(tech.id,req.params.id); if(!assignment||!request)return forbidden(res);
-  const type=req.body?.type,mimeType=String(req.body?.mimeType||''),sizeBytes=Number(req.body?.sizeBytes||0),url=String(req.body?.url||'');
-  if(!['BEFORE_PHOTO','AFTER_PHOTO','SERVICE_REPORT'].includes(type)||!url||sizeBytes>10*1024*1024)return res.status(400).json({success:false,message:'Valid document type, URL and max 10MB size are required.'});
+  const parsed=documentSchema.safeParse(req.body); if(!parsed.success)return res.status(400).json({success:false,error:'VALIDATION_ERROR',message:'Valid document type, URL and max 10MB size are required.'});
+  const {type,mimeType,sizeBytes,url}=parsed.data;
   const doc={id:`doc-${Date.now()}`,serviceRequestId:request.id,technicianId:tech.id,type,mimeType,sizeBytes,url,createdAt:new Date().toISOString()};
   store.documents.set(doc.id,doc); store.recordAudit('SERVICE_REQUEST',request.id,'DOCUMENT_UPLOADED',tech.id,req.user!.role,undefined,{documentId:doc.id,type}); pipeline.emit('technician:document_uploaded',{document:doc});
   return res.status(201).json({success:true,data:doc});
@@ -125,7 +131,8 @@ technicianRouter.post('/requests/:id/documents',(req,res)=>{
 technicianRouter.post('/requests/:id/complete',(req,res)=>{
   const tech=actor(req); if(!tech)return res.status(404).json({success:false,message:'Technician profile not found.'});
   const {assignment,request}=taskFor(tech.id,req.params.id); if(!assignment||!request)return forbidden(res);
-  const checklist=Array.isArray(req.body?.checklist)?req.body.checklist:[];
+  const parsed=completeSchema.safeParse(req.body); if(!parsed.success)return res.status(400).json({success:false,error:'VALIDATION_ERROR',message:'All checklist items are required.'});
+  const checklist=parsed.data.checklist;
   const after=Array.from(store.documents.values()).some(d=>d.serviceRequestId===request.id&&d.technicianId===tech.id&&d.type==='AFTER_PHOTO');
   if(!after)return res.status(400).json({success:false,message:'Completion blocked: at least one AFTER photo is required.'});
   if(!checklist.length||checklist.some((x:any)=>!x.isDone))return res.status(400).json({success:false,message:'Completion blocked: all checklist items must be completed.'});
