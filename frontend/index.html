@@ -11,8 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3u9b8L8dLQxV4x1mJ7fQ7KfZf8wJQ=" crossorigin="" />
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/technician-dashboard.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="/app.js"></script>
+    <script src="/technician-dashboard.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main" style="position: absolute; left: -999px;">Skip to content</a>
@@ -74,6 +76,149 @@
             <p class="demo-note">Demo mode: any valid email + password opens the workspace.</p>
           </form>
         </div>
+      </div>
+    </section>
+
+
+    <!-- FIELD TECHNICIAN WORKSPACE -->
+    <section class="technician-dashboard" id="technician-dashboard" aria-label="Field Technician Dashboard" hidden>
+      <aside class="tech-sidebar">
+        <div class="tech-sidebar-brand">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+          <span>DQBH<span class="brand-period">.</span>OS</span>
+        </div>
+        <div class="tech-role-chip"><span class="tech-live-dot"></span> FIELD OPERATIONS</div>
+        <nav class="tech-side-nav" aria-label="Technician workspace">
+          <button class="tech-nav-item is-active" data-tech-view="overview"><span>01</span> Overview</button>
+          <button class="tech-nav-item" data-tech-view="tasks"><span>02</span> My Tasks <b>3</b></button>
+          <button class="tech-nav-item" data-tech-view="schedule"><span>03</span> Schedule</button>
+          <button class="tech-nav-item" data-tech-view="skills"><span>04</span> Skills & Certs</button>
+          <button class="tech-nav-item" data-tech-view="notifications"><span>05</span> Notifications <b class="tech-alert-count">2</b></button>
+        </nav>
+        <div class="tech-sidebar-foot">
+          <div class="tech-secure-line"><span>●</span> SESSION SECURE</div>
+          <button class="tech-signout" type="button" onclick="window.exitTechnicianWorkspace?.()">← Change domain</button>
+        </div>
+      </aside>
+
+      <div class="tech-main">
+        <header class="tech-topbar">
+          <div>
+            <span class="tech-breadcrumb">FIELD TECHNICIAN / WORKSPACE</span>
+            <h1>Good morning, Sarah.</h1>
+          </div>
+          <div class="tech-top-actions">
+            <div class="tech-status-control">
+              <span class="tech-status-label">FIELD STATUS</span>
+              <button id="tech-availability-toggle" class="tech-status-toggle is-available" type="button" aria-pressed="true">
+                <span class="tech-toggle-dot"></span><span id="tech-availability-label">AVAILABLE</span>
+              </button>
+            </div>
+            <button class="tech-icon-btn" type="button" data-tech-view-target="notifications" aria-label="Notifications">⌁<span class="tech-notif-dot"></span></button>
+            <div class="tech-avatar">SJ</div>
+          </div>
+        </header>
+
+        <main class="tech-content">
+          <div class="tech-hero-row">
+            <div>
+              <span class="tech-kicker">TODAY / OCT 07, 2026</span>
+              <h2>Your field queue.</h2>
+              <p>Three service actions are assigned to you. One emergency job is waiting for acceptance.</p>
+            </div>
+            <div class="tech-shift-card">
+              <span>SHIFT WINDOW</span>
+              <strong>08:00 — 17:00</strong>
+              <small>Houston / Central Zone</small>
+            </div>
+          </div>
+
+          <section class="tech-metrics" aria-label="Technician metrics">
+            <article><span>ACTIVE JOB</span><strong>01</strong><small>In progress</small></article>
+            <article><span>QUEUE</span><strong>03</strong><small>Assigned today</small></article>
+            <article><span>COMPLETION</span><strong>86%</strong><small>Weekly average</small></article>
+            <article><span>RATING</span><strong>4.9</strong><small>Last 30 jobs</small></article>
+          </section>
+
+          <div class="tech-grid">
+            <section class="tech-panel tech-active-job">
+              <div class="tech-panel-head">
+                <div><span class="tech-panel-index">01 / ACTIVE ASSIGNMENT</span><h3>SR-2026-1001</h3></div>
+                <span class="tech-priority priority-emergency">EMERGENCY</span>
+              </div>
+              <div class="tech-job-location">
+                <div class="tech-map-marker">◎</div>
+                <div><strong>Houston Energy Complex A</strong><span>Unit 04 · 2.8 km from current position</span></div>
+                <button class="tech-route-btn" type="button">OPEN ROUTE ↗</button>
+              </div>
+              <div class="tech-job-machine">
+                <div><span>EQUIPMENT</span><strong>9HA.02 Heavy-Duty Gas Turbine</strong></div>
+                <div><span>SLA REMAINING</span><strong class="sla-hot">01:45:22</strong></div>
+              </div>
+              <div class="tech-progress">
+                <div class="tech-progress-top"><span>FIELD EXECUTION</span><strong>2 / 5 steps</strong></div>
+                <div class="tech-progress-track"><i style="width:40%"></i></div>
+                <div class="tech-checklist">
+                  <label class="done"><input type="checkbox" checked> Safety isolation verified</label>
+                  <label class="done"><input type="checkbox" checked> Initial vibration reading</label>
+                  <label><input type="checkbox"> Inspect turbine bearing assembly</label>
+                  <label><input type="checkbox"> Capture evidence photos</label>
+                  <label><input type="checkbox"> Submit service report</label>
+                </div>
+              </div>
+              <div class="tech-job-actions">
+                <button class="tech-primary-action" type="button" onclick="window.techToast?.('Checklist saved to task log')">SAVE PROGRESS</button>
+                <button class="tech-secondary-action" type="button" onclick="window.techToast?.('Evidence capture opened')">+ ADD EVIDENCE</button>
+                <button class="tech-more-action" type="button" onclick="window.techToast?.('Problem report opened')">REPORT PROBLEM</button>
+              </div>
+            </section>
+
+            <aside class="tech-panel tech-profile-panel">
+              <div class="tech-panel-head compact"><div><span class="tech-panel-index">02 / TECHNICIAN</span><h3>Sarah Jenkins</h3></div><span class="tech-online-badge">ONLINE</span></div>
+              <div class="tech-profile-main">
+                <div class="tech-large-avatar">SJ</div>
+                <div><strong>Senior Field Technician</strong><span>Houston / TX-01 territory</span></div>
+              </div>
+              <div class="tech-profile-stats"><span><b>48</b> jobs completed</span><span><b>96%</b> SLA success</span></div>
+              <div class="tech-skills-mini">
+                <span>TOP CERTIFICATIONS</span>
+                <div><b>TURBINE LVL 3</b><b>VIBRATION ANALYSIS</b><b>MECHANICAL</b></div>
+              </div>
+              <button class="tech-outline-wide" type="button" data-tech-view-target="skills">VIEW FULL PROFILE ↗</button>
+            </aside>
+          </div>
+
+          <div class="tech-grid lower">
+            <section class="tech-panel">
+              <div class="tech-panel-head"><div><span class="tech-panel-index">03 / NEXT ASSIGNMENTS</span><h3>Work queue</h3></div><button class="tech-link-btn" type="button" data-tech-view-target="tasks">VIEW ALL →</button></div>
+              <div class="tech-task-list">
+                <button class="tech-task-row is-pending" type="button" onclick="window.techToast?.('Assignment SR-2026-1004 accepted')">
+                  <span class="task-time">11:30</span><span class="task-main"><b>SR-2026-1004</b><small>Hydraulic actuator inspection · Bay 7</small></span><span class="task-tag tag-high">HIGH</span><span>→</span>
+                </button>
+                <button class="tech-task-row" type="button"><span class="task-time">14:00</span><span class="task-main"><b>SR-2026-1005</b><small>Controls calibration · Line 2</small></span><span class="task-tag tag-medium">MEDIUM</span><span>→</span></button>
+                <button class="tech-task-row" type="button"><span class="task-time">16:15</span><span class="task-main"><b>SR-2026-1006</b><small>Preventive maintenance · Unit 09</small></span><span class="task-tag tag-low">LOW</span><span>→</span></button>
+              </div>
+            </section>
+
+            <section class="tech-panel tech-notifications-panel">
+              <div class="tech-panel-head"><div><span class="tech-panel-index">04 / ALERTS</span><h3>Notifications</h3></div><span class="tech-unread">2 UNREAD</span></div>
+              <div class="tech-notification-list">
+                <div class="tech-notification unread"><i></i><div><b>New emergency assignment</b><span>SR-2026-1001 requires acceptance · 4 min ago</span></div></div>
+                <div class="tech-notification unread"><i></i><div><b>Parts reservation confirmed</b><span>Bearing assembly reserved at Houston site · 18 min ago</span></div></div>
+                <div class="tech-notification"><i></i><div><b>Weekly performance report</b><span>Your SLA score is above team average · 1 hr ago</span></div></div>
+              </div>
+            </section>
+          </div>
+
+          <section class="tech-panel tech-timeline-panel">
+            <div class="tech-panel-head"><div><span class="tech-panel-index">05 / FIELD ACTIVITY</span><h3>Today's activity</h3></div><span class="tech-sync">● SYNCED JUST NOW</span></div>
+            <div class="tech-timeline">
+              <div class="tech-timeline-item current"><span>08:12</span><i></i><div><b>Checked in to field zone</b><small>Houston Energy Complex A · GPS verified</small></div></div>
+              <div class="tech-timeline-item"><span>08:35</span><i></i><div><b>Accepted SR-2026-1001</b><small>Emergency turbine vibration investigation</small></div></div>
+              <div class="tech-timeline-item"><span>09:04</span><i></i><div><b>Safety checklist completed</b><small>2 of 5 execution steps now complete</small></div></div>
+            </div>
+          </section>
+        </main>
       </div>
     </section>
 
