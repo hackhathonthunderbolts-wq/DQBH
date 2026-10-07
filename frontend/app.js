@@ -201,6 +201,15 @@ const domainConfig = {
 function selectDomain(domain) {
   const config = domainConfig[domain];
   if (!config) return;
+
+  // Field Technician is a dedicated presentation workspace.
+  // Enter it directly instead of allowing the legacy platform overview
+  // to become the technician landing page.
+  if (domain === 'technician') {
+    window.openTechnicianWorkspace?.();
+    return;
+  }
+
   const picker = document.getElementById('domain-panel');
   const login = document.getElementById('login-panel');
   picker?.setAttribute('hidden', '');
@@ -221,13 +230,13 @@ window.submitDomainLogin = function (event) {
   const login = document.getElementById('login-panel');
   const domain = login?.dataset.domain || 'operations';
   const config = domainConfig[domain];
+
   document.body.classList.add('workspace-unlocked');
   document.getElementById('auth-gate')?.setAttribute('hidden', '');
+
   const note = document.querySelector('.header-note');
   if (note) note.innerHTML = `${config.kicker} <span>/</span> AUTHENTICATED`;
 
-  // Technician has a dedicated application workspace. Open it directly after
-  // authentication instead of relying on the legacy landing-page flow.
   if (domain === 'technician') {
     window.openTechnicianWorkspace?.();
     return;
