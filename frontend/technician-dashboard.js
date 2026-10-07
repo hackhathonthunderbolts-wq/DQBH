@@ -217,7 +217,10 @@
     }
 
     $$('.tech-nav-item').forEach(btn=>btn.addEventListener('click',()=>setView(btn.dataset.techView)));
-    $('[data-tech-view-target="notifications"]')?.addEventListener('click',()=>setView('notifications'));
+    $('[data-tech-view-target]').forEach(btn => btn.addEventListener('click', () => {
+      const target = btn.dataset.techViewTarget;
+      if (target) setView(target);
+    }));
     $('#tech-availability-toggle')?.addEventListener('click',updateAvailability);
 
     $$('.tech-checklist input[type="checkbox"]').forEach(input=>input.addEventListener('change',()=>{
@@ -239,6 +242,30 @@
         $$('.tech-alert-count').forEach(x=>x.textContent='0');
         toast('All notifications marked as read');
         setView('notifications');
+      }
+
+      const scheduleRow=e.target.closest('.tech-calendar > div:not(.tech-calendar-head)');
+      if(scheduleRow) {
+        scheduleRow.classList.toggle('selected');
+        toast(scheduleRow.querySelector('b')?.textContent || 'Schedule item selected');
+      }
+
+      const inbox=e.target.closest('.tech-inbox-row');
+      if(inbox && !e.target.closest('[data-mark-read]')) {
+        inbox.classList.remove('unread');
+        const remaining=$('.tech-inbox-row.unread').length;
+        state.notifications=remaining;
+        toast(remaining ? 'Notification marked as read' : 'Inbox cleared');
+        const count=$('#dynamic-unread-count'); if(count) count.textContent=remaining;
+        const kpi=$('#dynamic-unread-kpi'); if(kpi) kpi.textContent=remaining;
+        $('.tech-alert-count').forEach(x=>x.textContent=remaining);
+      }
+
+      const capability=e.target.closest('.tech-capability-grid article');
+      if(capability) {
+        capability.classList.toggle('expanded');
+        const name=capability.querySelector('b')?.textContent || 'Skill';
+        toast(name + (capability.classList.contains('expanded') ? ' details expanded' : ' details collapsed'));
       }
 
       const bar=e.target.closest('#tech-week-bars > span');
@@ -310,6 +337,16 @@
         e.preventDefault();
         target.scrollIntoView({behavior:'smooth', block:'start'});
       }
+    });
+
+    $('#tech-reset-analytics')?.addEventListener('click', () => {
+      const defaults=[4,5,3,6,5,7,2];
+      $('#tech-week-bars > span').forEach((bar,i)=>{
+        bar.dataset.value=String(defaults[i]);
+        bar.style.setProperty('--bar',[48,62,42,75,58,88,26][i]+'%');
+      });
+      refreshAnalytics();
+      toast('Performance chart reset');
     });
 
     refreshAnalytics();
