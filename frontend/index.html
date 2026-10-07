@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f6f4" />
+    <meta name="description" content="DQBH: Next-Generation Activity Management Platform for Industrial Equipment Services. Centralized dispatch, dynamic routing, exception recovery, and immutable audit trails." />
+    <title>DQBH / Industrial Equipment Service Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3u9b8L8dLQxV4x1mJ7fQ7KfZf8wJQ=" crossorigin="" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" style="position: absolute; left: -999px;">Skip to content</a>
+    <div class="scroll-progress" aria-hidden="true"><span id="progress-bar"></span></div>
+    
+    <div class="chapter-scroll" aria-hidden="true">
+      <span class="chapter-scroll-label" id="chapter-scroll-label">01 / PLATFORM OVERVIEW</span>
+      <span class="chapter-scroll-track"><i id="chapter-scroll-fill"></i></span>
+      <span class="chapter-scroll-value" id="chapter-scroll-value">00%</span>
+    </div>
+
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="DQBH Platform Home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+        <span class="brand-name">DQBH<span class="brand-period">.</span>OS</span>
+      </a>
+      <span class="header-note">ENTERPRISE EDITION <span>/</span> INDUSTRIAL SERVICE LIFECYCLE</span>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        <span class="menu-toggle-label">Menu</span><span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
+      </button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
+        <a href="#brief">Problem</a>
+        <a href="#features">Architecture</a>
+        <a href="#process">Pipeline</a>
+        <a href="#apikeys">API Keys</a>
+      </nav>
+      <a class="header-cta" href="#auth-gate">Choose Domain <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <!-- ROLE / DOMAIN AUTHENTICATION GATE -->
+    <section class="auth-gate" id="auth-gate" aria-label="DQBH domain login">
+      <div class="auth-shell">
+        <div class="auth-brand">
+          <span class="brand-mark"><i></i><i></i></span>
+          <span>DQBH<span class="brand-period">.</span>OS</span>
+        </div>
+        <div class="auth-grid">
+          <div class="auth-intro">
+            <span class="auth-kicker">SECURE OPERATIONS FABRIC / 2026</span>
+            <h1>Choose your<br /><em>operational domain.</em></h1>
+            <p>Separate access portals keep dispatch, field execution, customer assets, and governance workflows isolated while sharing one service lifecycle.</p>
+            <div class="auth-meta"><span>RBAC ENABLED</span><span>JWT + SESSION</span><span>AUDIT LOGGED</span></div>
+          </div>
+          <div class="domain-panel" id="domain-panel">
+            <div class="domain-panel-head"><span>01 / ACCESS PORTALS</span><span>SELECT DOMAIN</span></div>
+            <div class="domain-list">
+              <button class="domain-card" data-domain="operations"><span class="domain-no">01</span><span><strong>Operations Control</strong><small>Dispatch, routing, SLA & exceptions</small></span><b>↗</b></button>
+              <button class="domain-card" data-domain="technician"><span class="domain-no">02</span><span><strong>Field Technician</strong><small>Assigned work, navigation & evidence</small></span><b>↗</b></button>
+              <button class="domain-card" data-domain="customer"><span class="domain-no">03</span><span><strong>Customer / Site</strong><small>Requests, assets & completion status</small></span><b>↗</b></button>
+              <button class="domain-card" data-domain="governance"><span class="domain-no">04</span><span><strong>Governance & Admin</strong><small>Audit, API keys & integrations</small></span><b>↗</b></button>
+            </div>
+          </div>
+          <form class="login-panel" id="login-panel" hidden onsubmit="submitDomainLogin(event)">
+            <div class="domain-panel-head"><button type="button" class="back-domain" onclick="showDomainPicker()">← Domains</button><span id="login-domain-code">DOMAIN / 01</span></div>
+            <div class="login-title"><span class="auth-kicker" id="login-kicker">OPERATIONS CONTROL</span><h2 id="login-title">Operations sign in</h2><p id="login-description">Access dispatch queues, technician routing and exception recovery.</p></div>
+            <label>Work email<input id="login-email" class="auth-input" type="email" placeholder="operator@company.com" required /></label>
+            <label>Password<input id="login-password" class="auth-input" type="password" placeholder="••••••••" required /></label>
+            <button class="auth-submit" type="submit">Enter domain <span>↗</span></button>
+            <p class="demo-note">Demo mode: any valid email + password opens the workspace.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <main id="main">
+      <!-- 01 HERO SECTION -->
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> DQBH ARCHITECTURE / 2026 <span class="eyebrow-rule"></span> MULTI-SITE FLEET ORCHESTRATION</p>
+          <h1 id="hero-title">Orchestrating<br />industrial service<br /><em>with zero friction.</em></h1>
+          <p class="hero-description">A single, centralized digital operating platform managing the complete equipment service lifecycle—from automated IoT anomaly dispatch and skill-based technician routing to photo proof verification and tamper-evident blockchain audit seals.</p>
+          <div class="hero-actions">
+            <a class="button button-dark" href="#features">Explore Architecture <span aria-hidden="true">↓</span></a>
+            <button class="button button-light" onclick="openCreateModal()">+ Create Service Ticket</button>
+            <span class="hero-footnote"><span class="mini-line"></span> Production-grade full-stack engine.</span>
+          </div>
+        </div>
+
+        <div class="hero-art reveal reveal-delay" aria-label="DQBH Systems Schematic">
+          <div class="art-index"><span>SYS. 01</span><span>SPEC / INDUSTRIAL-OS</span></div>
+          <div class="paper-stack">
+            <div class="paper paper-back"></div>
+            <div class="paper paper-mid"></div>
+            <div class="paper paper-front">
+              <div class="paper-topline"><span>DQBH / CORE ARCHITECTURE</span><span>v2.4</span></div>
+              <div class="orbit-core">
+                <span class="core-mark">DQBH</span>
+                <span>REAL-TIME<br />SERVICE PIPELINE</span>
+              </div>
+              <div class="art-coordinate coord-a">GEO: POSTGIS / WGS84</div>
+              <div class="art-coordinate coord-b">AUTH: DUAL JWT + API KEY</div>
+              <div class="paper-caption">
+                <span>FIGURE A — STATE ENGINE</span>
+                <span>DISPATCH / AUDIT READY</span>
+              </div>
+            </div>
+            <span class="art-side-note">FULL-STACK SERVICE LIFECYCLE<br />MULTI-SITE DEPLOYMENT</span>
+          </div>
+          <div class="art-foot"><span>SCROLL TO EXPLORE ARCHITECTURE</span><span class="art-scroll-mark" aria-hidden="true">⌄</span></div>
+        </div>
+        <div class="hero-index" aria-hidden="true"><span>01</span><span class="hero-index-line"></span><span>06</span></div>
+      </section>
+
+      <!-- 02 THE BRIEF / PROBLEM STATEMENT -->
+      <section class="brief paper-section tear-top" id="brief" aria-labelledby="brief-title">
+        <div class="section-shell brief-layout">
+          <div class="section-label reveal"><span class="section-number">01</span><span class="label-rule"></span><span>THE BRIEF</span></div>
+          <div class="brief-content reveal">
+            <p class="eyebrow">INDUSTRIAL SERVICE CHALLENGES</p>
+            <h2 id="brief-title">Eliminating fragmentation<br />across <em>distributed plant sites.</em></h2>
+            <p class="section-intro">Industrial maintenance traditionally relies on disconnected spreadsheets, legacy radio dispatch, and manual paper approvals. DQBH replaces this with an automated state machine and real-time coordination engine.</p>
+            <div class="brief-columns" data-stagger="90">
+              <article class="brief-note">
+                <span class="note-index">A / OPERATIONAL BOTTLENECKS</span>
+                <p>Technician dropouts cause severe SLA breaches; spare parts stockouts delay restarts; unverified work orders compromise asset warranties and safety audits.</p>
+                <a href="#features" class="text-link">The Engine Response <span aria-hidden="true">↘</span></a>
+              </article>
+              <article class="brief-note">
+                <span class="note-index">B / THE DQBH RESOLUTION</span>
+                <p>Automated machine eligibility checks, multi-factor Haversine technician scoring, instant dropout re-routing cascades, and cryptographic audit chaining.</p>
+                <a href="#features" class="text-link">View Architecture <span aria-hidden="true">↘</span></a>
+              </article>
+            </div>
+          </div>
+          <aside class="brief-stamp reveal" aria-label="System metadata">
+            <span class="stamp-small">ARCHITECTURE BY</span>
+            <span class="stamp-large">PRINCIPAL<br />SYSTEMS<br />ARCHITECT</span>
+            <span class="stamp-rule"></span>
+            <span class="stamp-small">DQBH PLATFORM<br />EDITION / 2026</span>
+          </aside>
+        </div>
+        <div class="section-bottom-note"><span>SYSTEM OVERVIEW</span><span>01 — 06</span></div>
+      </section>
+
+      <!-- 03 THE APPROACH & CORE CAPABILITIES -->
+      <section class="approach section-shell" id="features" aria-labelledby="approach-title">
+        <div class="section-label reveal"><span class="section-number">02</span><span class="label-rule"></span><span>THE APPROACH</span></div>
+        <div class="approach-heading reveal">
+          <div>
+            <p class="eyebrow">MODULAR & DECOUPLED ARCHITECTURE</p>
+            <h2 id="approach-title">Built for resilience,<br /><em>engineered for scale.</em></h2>
+          </div>
+          <p class="approach-aside">Decoupled domain services ensure sub-second routing, instant dropout recovery, and plug-and-play extensibility.</p>
+        </div>
+        <div class="feature-list" data-stagger="90">
+          <article class="feature-row reveal">
+            <span class="feature-number">01</span>
+            <div class="feature-symbol" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="feature-copy">
+              <h3>Dynamic Haversine & Skill Routing</h3>
+              <p>Scores technicians across 4 weighted dimensions: Geo-proximity (40%), Certification match (35%), Active workload (15%), and Historical rating (10%).</p>
+            </div>
+            <span class="feature-type">CORE ENGINE / 01</span>
+            <span class="feature-arrow" aria-hidden="true">↗</span>
+          </article>
+
+          <article class="feature-row reveal">
+            <span class="feature-number">02</span>
+            <div class="feature-symbol" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="feature-copy">
+              <h3>Automated Exception & Dropout Recovery</h3>
+              <p>Sudden field dropouts trigger instant capacity release, parts reservation lock preservation, priority escalation, and automated candidate re-routing.</p>
+            </div>
+            <span class="feature-type">CORE ENGINE / 02</span>
+            <span class="feature-arrow" aria-hidden="true">↗</span>
+          </article>
+
+          <article class="feature-row reveal">
+            <span class="feature-number">03</span>
+            <div class="feature-symbol" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="feature-copy">
+              <h3>Extensible API Key & Telemetry Pipeline</h3>
+              <p>Cryptographically hashed API keys with granular scopes (<code>iot:telemetry:write</code>, <code>requests:read</code>) for external ERPs and IoT sensor streams.</p>
+            </div>
+            <span class="feature-type">SECURITY & HOOKS / 03</span>
+            <span class="feature-arrow" aria-hidden="true">↗</span>
+          </article>
+        </div>
+        <div class="approach-foot"><span>ENTERPRISE SPECIFICATION READY</span><span class="foot-line"></span><span>03 / 06</span></div>
+      </section>
+
+      <!-- 05 ARCHITECTURE PROCESS TIMELINE -->
+      <section class="process section-shell" id="process" aria-labelledby="process-title">
+        <div class="section-label reveal"><span class="section-number">04</span><span class="label-rule"></span><span>SYSTEM PIPELINE</span></div>
+        <div class="process-layout">
+          <div class="process-intro reveal">
+            <p class="eyebrow">STEP-BY-STEP WORKFLOW</p>
+            <h2 id="process-title">From ticket creation<br />to <em>verified completion.</em></h2>
+            <p>Every service event passes through a deterministic pipeline guaranteeing data integrity, safety checks, and immutable records.</p>
+            <div class="stack-tags">
+              <span>[ POSTGRESQL + POSTGIS ]</span>
+              <span>[ TYPESCRIPT + NODE.JS ]</span>
+              <span>[ WEBSOCKETS ]</span>
+              <span>[ API KEYS ]</span>
+            </div>
+          </div>
+          <div class="process-timeline" data-stagger="90">
+            <article class="process-step reveal">
+              <span class="step-index">01</span>
+              <span class="step-dot"></span>
+              <div>
+                <span class="step-kicker">INGESTION & VALIDATION</span>
+                <h3>Eligibility & Resource Gate</h3>
+                <p>Auto-validates equipment status, warranty coverage, required skill certifications, and spare parts stock.</p>
+              </div>
+              <span class="step-time">STAGE 01</span>
+            </article>
+
+            <article class="process-step reveal">
+              <span class="step-index">02</span>
+              <span class="step-dot"></span>
+              <div>
+                <span class="step-kicker">DISPATCH & HAIVERSINE MATCHING</span>
+                <h3>Optimal Geolocation Dispatch</h3>
+                <p>Calculates multi-factor composite scores to dispatch the closest, highest-rated certified technician.</p>
+              </div>
+              <span class="step-time">STAGE 02</span>
+            </article>
+
+            <article class="process-step reveal">
+              <span class="step-index">03</span>
+              <span class="step-dot"></span>
+              <div>
+                <span class="step-kicker">EXECUTION & EVIDENCE CAPTURE</span>
+                <h3>Field Proof & Task Logging</h3>
+                <p>Technicians log diagnostic checklists, upload S3-backed photo proofs, and submit signatures via mobile PWA.</p>
+              </div>
+              <span class="step-time">STAGE 03</span>
+            </article>
+
+            <article class="process-step reveal">
+              <span class="step-index">04</span>
+              <span class="step-dot"></span>
+              <div>
+                <span class="step-kicker">VERIFICATION & BLOCKCHAIN SEAL</span>
+                <h3>Manager Audit & Cryptographic Anchor</h3>
+                <p>Site operations manager signs off on photo evidence, generating a SHA-256 Merkle proof on the audit ledger.</p>
+              </div>
+              <span class="step-time">STAGE 04</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 TEAM / ARCHITECTURE PRINCIPLES -->
+      <section class="team paper-section tear-top" id="team" aria-labelledby="team-title">
+        <div class="team-shell">
+          <div class="section-label reveal"><span class="section-number">05</span><span class="label-rule"></span><span>SYSTEM ROLES</span></div>
+          <div class="team-heading reveal">
+            <div>
+              <p class="eyebrow">ROLE-BASED ACCESS CONTROL</p>
+              <h2 id="team-title">Engineered for every<br /><em>stakeholder.</em></h2>
+            </div>
+            <p>Granular permissions secure access across administrators, operations managers, field techs, and client auditors.</p>
+          </div>
+          <div class="team-list" data-stagger="100">
+            <article class="team-member reveal">
+              <div class="member-portrait"><span>01</span></div>
+              <div class="member-info">
+                <span class="member-kicker">ROLE / 01</span>
+                <h3>Operations Dispatcher</h3>
+                <p>Queue management, auto-routing, and exception resolution.</p>
+              </div>
+            </article>
+            <article class="team-member reveal">
+              <div class="member-portrait"><span>02</span></div>
+              <div class="member-info">
+                <span class="member-kicker">ROLE / 02</span>
+                <h3>Field Technician</h3>
+                <p>Mobile PWA task logging, photo evidence, and checklists.</p>
+              </div>
+            </article>
+            <article class="team-member reveal">
+              <div class="member-portrait"><span>03</span></div>
+              <div class="member-info">
+                <span class="member-kicker">ROLE / 03</span>
+                <h3>Site Supervisor / Auditor</h3>
+                <p>Work verification, blockchain ledger audit, and API keys.</p>
+              </div>
+            </article>
+          </div>
+          <div class="team-foot"><span>ENTERPRISE GOVERNANCE ALIGNED</span><span class="foot-line"></span><span>05 / 06</span></div>
+        </div>
+      </section>
+
+      <!-- 07 CLOSING & DOWNLOAD ARCHIVE -->
+      <section class="closing section-shell" id="contact" aria-labelledby="closing-title">
+        <div class="closing-top reveal">
+          <span class="closing-index">06 / DEPLOYMENT & ARTIFACT</span>
+          <span class="closing-cross" aria-hidden="true">＋</span>
+        </div>
+        <div class="closing-content reveal">
+          <p class="eyebrow">PRODUCTION READY DEPLOYMENT</p>
+          <h2 id="closing-title">The full codebase<br />is <em>ready to deploy.</em></h2>
+          <p>Complete with Docker Compose, PostgreSQL + PostGIS DDL, Express/TypeScript backend, WebSocket real-time engine, and full interactive UI.</p>
+          <a class="button button-dark" href="#process">Explore Service Pipeline <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="closing-side-note">DQBH PLATFORM v2.4<br />DISTRIBUTION READY</div>
+      </section>
+    </main>
+
+    <!-- CREATE REQUEST MODAL -->
+    <div class="modal-overlay" id="create-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 style="font-size: 16px; font-weight: 600;">Create Industrial Service Request</h3>
+          <button class="modal-close-btn" onclick="closeCreateModal()">×</button>
+        </div>
+        <form onsubmit="submitNewRequest(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Target Industrial Equipment</label>
+              <select class="form-input" id="req-machine-select">
+                <option value="9HA.02 Heavy-Duty Gas Turbine">GE 9HA.02 Gas Turbine (EQ-APEX-098)</option>
+                <option value="M-2000iA Heavy Payload Robot">FANUC M-2000iA Robot (EQ-VANG-104)</option>
+                <option value="High-NA EUV Scanner Subsystem">ASML High-NA EUV Scanner (EQ-AURA-002)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Facility Site</label>
+              <select class="form-input" id="req-site-select">
+                <option value="Houston Energy Complex A">Houston Energy Complex A (TX)</option>
+                <option value="Detroit Automation Plant 4">Detroit Automation Plant 4 (MI)</option>
+                <option value="Silicon Valley Fab Beta">Silicon Valley Fab Beta (CA)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Priority Tier</label>
+              <select class="form-input" id="req-priority-select">
+                <option value="EMERGENCY">EMERGENCY (2h SLA)</option>
+                <option value="HIGH">HIGH (4h SLA)</option>
+                <option value="MEDIUM">MEDIUM (12h SLA)</option>
+                <option value="LOW">LOW (48h SLA)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Service Title</label>
+              <input class="form-input" id="req-title-input" placeholder="e.g. Hydraulic Actuator Fluid Leak" required />
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+            <button type="button" class="button button-light" onclick="closeCreateModal()">Cancel</button>
+            <button type="submit" class="button button-emerald">Validate & Submit Ticket</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- SITE FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-main" data-stagger="90">
+        <a class="brand footer-brand" href="#top">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+          <span class="brand-name">DQBH<span class="brand-period">.</span>OS</span>
+        </a>
+        <p>Next-Generation Activity Management Platform<br />for Industrial Equipment Services.</p>
+        <nav class="footer-links" aria-label="Project links">
+          <a href="#process">Pipeline <span>↗</span></a>
+          <a href="#features">Architecture <span>↗</span></a>
+          <a href="#top">Back to Top <span>↑</span></a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 / DQBH INDUSTRIAL SYSTEMS ARCHITECTURE</span>
+        <span>ENGINEERED FOR RESILIENCE & ZERO UNPLANNED DOWNTIME</span>
+        <a href="#top">TOP <span aria-hidden="true">↑</span></a>
+      </div>
+    </footer>
+  </body>
+</html>

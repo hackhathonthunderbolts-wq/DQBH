@@ -1,0 +1,12 @@
+{
+  "name": "dqbh-platform",
+  "version": "2.4.0",
+  "private": true,
+  "description": "DQBH Industrial Service Operations Platform",
+  "scripts": {
+    "frontend:dev": "npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "backend:dev": "npm --prefix backend run dev",
+    "backend:build": "npm --prefix backend run build"
+  }
+}
